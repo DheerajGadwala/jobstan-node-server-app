@@ -7,14 +7,14 @@ const UsersController = (app) => {
         res.sendStatus(200)
     }
 
-    const pendingJobSearchers = async (req, res) => {
-        const pendingJobSearchers = await userDao.findPendingJobSearchers();
-        res.json(pendingJobSearchers)
+    const pendingApplicants = async (req, res) => {
+        const pendingApplicants = await userDao.findPendingApplicants();
+        res.json(pendingApplicants)
     }
 
-    const pendingJobPosters = async (req, res) => {
-        const pendingJobPosters = await userDao.findPendingJobPosters();
-        res.json(pendingJobPosters)
+    const pendingRecruiters = async (req, res) => {
+        const pendingRecruiters = await userDao.findPendingRecruiters();
+        res.json(pendingRecruiters)
     }
 
     const approveUser = async (req, res) => {
@@ -32,10 +32,9 @@ const UsersController = (app) => {
         }
     }
 
-
     app.post('/logout', logout);
-    app.get('/pendingJobSearchers', pendingJobSearchers);
-    app.get('/pendingJobPosters', pendingJobPosters);
+    app.get('/pendingApplicants', pendingApplicants);
+    app.get('/pendingRecruiters', pendingRecruiters);
     app.post('/updateUser/:uid', approveUser);
     app.post('/profile', profile);
 }

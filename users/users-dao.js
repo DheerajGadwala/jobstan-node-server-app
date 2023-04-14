@@ -9,11 +9,11 @@ export const findUserByUsername = async (username) =>
 export const findUserByCredentials = async (username, password) =>
     await usersModel.findOne({username, password, approvalStatus: "APPROVED"})
 
-export const findPendingJobSearchers = async () =>
-    await usersModel.find({role: "SEARCHER", approvalStatus: "PENDING"})
+export const findPendingApplicants = async () =>
+    await usersModel.find({role: "APPLICANT", approvalStatus: "PENDING"})
 
-export const findPendingJobPoster = async () =>
-    await usersModel.find({role: "POSTER", approvalStatus: "PENDING"})
+export const findPendingRecruiters = async () =>
+    await usersModel.find({role: "RECRUITER", approvalStatus: "PENDING"})
 
 export const updateUserApproval = async (uid) =>
     await usersModel.updateOne({_id: uid}, {$set: {"approvalStatus": "APPROVED"}})
