@@ -7,6 +7,32 @@ const UsersController = (app) => {
         res.sendStatus(200)
     }
 
+    const register = async (req, res) => {
+        const user = req.body;
+        const existingUser = await userDao
+            .findUserByUsername(user.username)
+        if (existingUser) {
+            res.sendStatus(403)
+            return
+        }
+        const currentUser = await userDao.createUser(user)
+        res.json(currentUser)
+    }
+
+    const login = async (req, res) => {
+        const credentials = req.body
+        const existingUser = await userDao
+            .findUserByCredentials(
+                credentials.username, credentials.password)
+        if (existingUser) {
+            req.session['currentUser'] = existingUser
+            res.json(existingUser)
+            return
+        }
+        console.log(credentials)
+        res.sendStatus(403)
+    }
+
     const pendingApplicants = async (req, res) => {
         const pendingApplicants = await userDao.findPendingApplicants();
         res.json(pendingApplicants)
@@ -36,6 +62,8 @@ const UsersController = (app) => {
     app.get('/pendingApplicants', pendingApplicants);
     app.get('/pendingRecruiters', pendingRecruiters);
     app.post('/updateUser/:uid', approveUser);
+    app.post('/register', register);
+    app.post('/login', login);
     app.post('/profile', profile);
 }
 

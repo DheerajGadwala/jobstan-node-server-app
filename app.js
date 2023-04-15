@@ -14,7 +14,7 @@ const options = {
     family: 4
 }
 
-const MONGO_URL = "mongodb+srv://rakeshmartin999:YWbvA8YKKSdDcoPQ@cluster0.zsh2vgk.mongodb.net/?retryWrites=true&w=majority"
+const MONGO_URL = "mongodb+srv://rakeshmartin999:YWbvA8YKKSdDcoPQ@cluster0.zsh2vgk.mongodb.net/jobstan?retryWrites=true&w=majority"
 mongoose.connect(MONGO_URL, options)
 const app = express();
 app.use(cors({
