@@ -58,6 +58,15 @@ const UsersController = (app) => {
         }
     }
 
+    const updateProfile = async (req, res) => {
+        const profileId = req.params.uid;
+        const updates = req.body;
+        const profile = await userDao.updateProfileDao(profileId, updates)
+        const finalProfile = await userDao.findUserByUserId(profileId)
+        req.session['currentUser'] = finalProfile
+        res.json(finalProfile)
+    }
+
     app.post('/logout', logout);
     app.get('/pendingApplicants', pendingApplicants);
     app.get('/pendingRecruiters', pendingRecruiters);
@@ -65,6 +74,7 @@ const UsersController = (app) => {
     app.post('/register', register);
     app.post('/login', login);
     app.post('/profile', profile);
+    app.put('/updateProfile/:uid', updateProfile);
 }
 
 export default UsersController
