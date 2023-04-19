@@ -11,6 +11,7 @@ const usersSchema = mongoose.Schema({
                                         appUniv: {type: String, default: ""},
                                         appMajor: {type: String, default: ""},
                                         appSkills: {type: Array, default: []},
+                                        appFollowCount: {type: Number, default: 0},
                                         recComp: {type: String, default: ""},
                                         recCompDesc: {type: String, default: ""},
                                         recPositions: {type: Array, default: []},
