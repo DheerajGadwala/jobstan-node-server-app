@@ -5,7 +5,7 @@ const UsersController = (app) => {
     const createPost = async (req, res) => {
         const post = req.body;
         const currentPost = await postDao.createPost(post);
-        res.json(postDao);
+        res.json(currentPost);
     }
 
     const addApplicant = async (req, res) => {
@@ -23,10 +23,16 @@ const UsersController = (app) => {
         res.json(filteredPosts);
     }
 
+    const previousPosts = async (req, res) => {
+        const response = await postDao.findPostsByFilter({"recruiter_id": req.params.recruiter_id});
+        res.json(response);
+    }
+
     app.post('/createPost', createPost);
     app.put('/addApplicant', addApplicant);
     app.delete('/delete', deletePost);
     app.get('/filteredPosts', getFilteredPosts);
+    app.get('/previousPosts/:recruiter_id', previousPosts);
 }
 
 export default UsersController
