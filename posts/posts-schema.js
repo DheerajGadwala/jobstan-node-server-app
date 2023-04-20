@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const postsSchema = mongoose.Schema({
-                                        _id: String,
                                         title: String,
                                         pay: Number,
                                         description: String,
