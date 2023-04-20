@@ -43,6 +43,16 @@ const UsersController = (app) => {
         res.json(pendingRecruiters)
     }
 
+    const getRecruiters = async (req, res) => {
+        const currentUser = req.params.uid;
+        const user = await userDao.findUserByUserId(currentUser);
+        const appFollowing = user.appFollowing;
+        console.log(appFollowing);
+        const getRecruiters = await userDao.findRecruiters();
+        const filteredRecruiters = getRecruiters.filter(recruiter => !appFollowing.includes(recruiter.username));
+        res.json(filteredRecruiters)
+    }
+
     const approveUser = async (req, res) => {
         const userToUpdate = req.params.uid;
         const user = await userDao.findUserByUserId(userToUpdate);
@@ -70,6 +80,7 @@ const UsersController = (app) => {
     app.post('/logout', logout);
     app.get('/pendingApplicants', pendingApplicants);
     app.get('/pendingRecruiters', pendingRecruiters);
+    app.get('/getRecruiters/:uid', getRecruiters);
     app.post('/updateUser/:uid', approveUser);
     app.post('/register', register);
     app.post('/login', login);

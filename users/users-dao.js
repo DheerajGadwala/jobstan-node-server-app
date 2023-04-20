@@ -15,6 +15,9 @@ export const findPendingApplicants = async () =>
 export const findPendingRecruiters = async () =>
     await usersModel.find({role: "RECRUITER", approvalStatus: "PENDING"})
 
+export const findRecruiters = async () =>
+    await usersModel.find({role: "RECRUITER", approvalStatus: "APPROVED"})
+
 export const updateUserApproval = async (uid) =>
     await usersModel.updateOne({_id: uid}, {$set: {"approvalStatus": "APPROVED"}})
 
