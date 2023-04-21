@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const postsSchema = mongoose.Schema({
                                         title: String,
-                                        pay: Number,
+                                        pay: String,
                                         description: String,
                                         skills: String,
                                         company: String,
