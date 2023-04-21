@@ -1,4 +1,5 @@
 import * as postDao from './posts-dao.js';
+import * as userDao from "../users/users-dao.js"
 
 const UsersController = (app) => {
 
@@ -8,31 +9,33 @@ const UsersController = (app) => {
         res.json(currentPost);
     }
 
-    const addApplicant = async (req, res) => {
-        await postDao.updatePostApplicants(req.body.postId, req.body.applicantId);
-        res.sendStatus(200);
-    }
-
     const deletePost = async (req, res) => {
-        await postDao.deletePost(req.body.postId);
-        res.sendStatus(200);
+        const postId = req.params.post_id;
+        const status = await postDao.deletePost(postId);
+        res.json(postId);
     }
 
-    const getFilteredPosts = async (req, res) => {
-        const filteredPosts = await postDao.findPostsByFilter(req.body.filters);
-        res.json(filteredPosts);
+    const getPostsByUserId = async (req, res) => {
+        const userId = req.params.user_id;
+        const user = await userDao.findUserByUserId(userId);
+        let posts = await postDao.findAllPosts();
+        if (user.role === "APPLICANT") {
+            const appFollowingArray = user.appFollowing;
+            // Filtering posts that are posted by recruiters that applicant follows and also the
+            // posts that applicant hasn't applies yet
+            posts = posts.filter(post =>
+                                     !post.applicants.includes(userId) &&
+                                     appFollowingArray.includes(post.recruiter_id));
+        } else {
+            posts = posts.filter(post => post.recruiter_id === userId);
+        }
+        res.json(posts);
     }
 
-    const previousPosts = async (req, res) => {
-        const response = await postDao.findPostsByFilter({"recruiter_id": req.params.recruiter_id});
-        res.json(response);
-    }
 
     app.post('/createPost', createPost);
-    app.put('/addApplicant', addApplicant);
-    app.delete('/delete', deletePost);
-    app.get('/filteredPosts', getFilteredPosts);
-    app.get('/previousPosts/:recruiter_id', previousPosts);
+    app.delete('/deletePost/:post_id', deletePost);
+    app.get('/getPosts/:user_id', getPostsByUserId);
 }
 
 export default UsersController

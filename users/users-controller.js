@@ -47,9 +47,8 @@ const UsersController = (app) => {
         const currentUser = req.params.uid;
         const user = await userDao.findUserByUserId(currentUser);
         const appFollowing = user.appFollowing;
-        console.log(appFollowing);
         const getRecruiters = await userDao.findRecruiters();
-        const filteredRecruiters = getRecruiters.filter(recruiter => !appFollowing.includes(recruiter.username));
+        const filteredRecruiters = getRecruiters.filter(recruiter => !appFollowing.includes(recruiter._id));
         res.json(filteredRecruiters)
     }
 

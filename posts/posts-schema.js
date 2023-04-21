@@ -7,6 +7,11 @@ const postsSchema = mongoose.Schema({
                                         skills: String,
                                         company: String,
                                         recruiter_id: String,
+                                        createdAt: {
+                                            type: Date,
+                                            default: Date.now
+                                        },
+                                        recruiter_name: String,
                                         applicants: {type: Array, default: []}
                                     }, {collection: 'posts'})
 
