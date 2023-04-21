@@ -76,6 +76,13 @@ const UsersController = (app) => {
         res.json(finalProfile)
     }
 
+    const getUser = async (req, res) => {
+        const uid = req.params.uid;
+        const user = await userDao.findUserByUserId(uid)
+        res.json(user)
+    }
+
+
     app.post('/logout', logout);
     app.get('/pendingApplicants', pendingApplicants);
     app.get('/pendingRecruiters', pendingRecruiters);
@@ -85,6 +92,7 @@ const UsersController = (app) => {
     app.post('/login', login);
     app.post('/profile', profile);
     app.put('/updateProfile/:uid', updateProfile);
+    app.get('/getUser/:uid', getUser);
 }
 
 export default UsersController

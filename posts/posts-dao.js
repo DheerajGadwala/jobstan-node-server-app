@@ -29,3 +29,7 @@ export const findAllPosts = async () =>
 
 export const deletePost = async(post_id) =>
     await postsModel.deleteOne({_id: post_id});
+
+export const updatePost = async (postIdToUpdate, updates) =>
+    await postsModel.updateOne({_id: postIdToUpdate}, {$set: updates})
+

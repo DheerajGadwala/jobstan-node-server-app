@@ -32,10 +32,17 @@ const UsersController = (app) => {
         res.json(posts);
     }
 
+    const updatePost = async (req, res) => {
+        const postIdToUpdate = req.params.post_id;
+        const updates = req.body;
+        const status = await postDao.updatePost(postIdToUpdate, updates);
+        res.json(status);
+    }
 
     app.post('/createPost', createPost);
     app.delete('/deletePost/:post_id', deletePost);
     app.get('/getPosts/:user_id', getPostsByUserId);
+    app.put('/updatePost/:post_id', updatePost);
 }
 
 export default UsersController
