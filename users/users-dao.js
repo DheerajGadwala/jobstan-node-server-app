@@ -32,3 +32,19 @@ await usersModel.find({username:{$regex:"(.*?)"+username,$options:"$i"}})
 
 export const findAllUsers = async () =>
     await usersModel.find()
+
+export const findUsersByFilter = async(filter) => {
+    let predicate = {};
+    if (filter["appMajor"]) {
+        predicate = {...predicate, "appMajor": filter["major"]};
+    }
+    // if (filter["pay"]) {
+    //     predicate = {...predicate, "pay": { $gt: Number(filter["pay"]) }};
+    // }
+    if (filter["appUniv"]) {
+        predicate = {...predicate, "appUniv": filter["appUniv"]};
+    }
+    return await usersModel.find(predicate);
+}
+
+    

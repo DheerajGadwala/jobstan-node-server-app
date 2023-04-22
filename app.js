@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import UsersController from "./users/users-controller.js";
-import PostsController from "./posts/posts-controller.js";
+import PostsController from './posts/posts-controller.js';
 import session from 'express-session'
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
@@ -20,7 +20,7 @@ mongoose.connect(MONGO_URL, options)
 const app = express();
 app.use(cors({
                  credentials: true,
-                 origin: 'http://localhost:3001'
+                 origin: 'http://localhost:3000'
              }))
 app.use(session({
                     secret: 'should be an environment variable',

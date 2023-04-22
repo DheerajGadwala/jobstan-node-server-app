@@ -7,19 +7,19 @@ export const createPost = async (post) =>
 // export const findPostById = async (_id) =>
 //     await postsModel.findOne({_id})
 
-// export const findPostsByFilter = async(filter) => {
-//     const predicate = {};
-//     if (filter["role"]) {
-//         predicate = {...predicate, "role": filter["role"]};
-//     }
-//     if (filter["pay"]) {
-//         predicate = {...predicate, "pay": { $gt: Number(filter["pay"]) }};
-//     }
-//     if (filter["company"]) {
-//         predicate = {...predicate, "company": filter["company"]};
-//     }
-//     return await postsModel.find(predicate);
-// }
+export const findPostsByFilter = async(filter) => {
+    let predicate = {};
+    if (filter["title"]) {
+        predicate = {...predicate, "title": filter["title"]};
+    }
+    // if (filter["pay"]) {
+    //     predicate = {...predicate, "pay": { $gt: Number(filter["pay"]) }};
+    // }
+    if (filter["company"]) {
+        predicate = {...predicate, "company": filter["company"]};
+    }
+    return await postsModel.find(predicate);
+}
 
 // export const updatePostApplicants = async(_id, applicant_id) =>
 //     await postsModel.updateOne({_id}, {$push: {applicants:applicant_id}});

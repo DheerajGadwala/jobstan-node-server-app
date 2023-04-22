@@ -1,7 +1,7 @@
 import * as postDao from './posts-dao.js';
 import * as userDao from "../users/users-dao.js"
 
-const UsersController = (app) => {
+const PostsController = (app) => {
 
     const createPost = async (req, res) => {
         const post = req.body;
@@ -38,11 +38,30 @@ const UsersController = (app) => {
         const status = await postDao.updatePost(postIdToUpdate, updates);
         res.json(status);
     }
+    const getFilteredPosts = async (req, res) => {
+        let predicate = {};
+        const title = req.params.title;
+        const company = req.params.company;
+        const userId = req.params.user_id;
+        const user = await userDao.findUserByUserId(userId);
+        const appFollowingArray = user.appFollowing;
+        const applied = req.params.applied;
+        if (title.length > 1) predicate = {...predicate, "title":title.substring(1)};
+        if (company.length > 1) predicate = {...predicate, "company":company.substring(1)};
+        let posts = await postDao.findPostsByFilter(predicate);
+        posts = posts.filter(post => appFollowingArray.includes(post.recruiter_id));
+        if (applied === 'true') 
+            posts = posts.filter(post => post.applicants.includes(userId));
+        else 
+            posts = posts.filter(post => !post.applicants.includes(userId));
+        res.json(posts);
+    }
 
     app.post('/createPost', createPost);
     app.delete('/deletePost/:post_id', deletePost);
     app.get('/getPosts/:user_id', getPostsByUserId);
     app.put('/updatePost/:post_id', updatePost);
+    app.get('/getFilteredPosts/:user_id/:title/:company/:applied', getFilteredPosts);
 }
 
-export default UsersController
+export default PostsController

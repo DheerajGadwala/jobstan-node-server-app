@@ -83,6 +83,16 @@ const UsersController = (app) => {
     }
 
 
+    const getFilteredApplicants = async (req, res) => {
+        let predicate = {role: "APPLICANT"};
+        const major = req.params.major;
+        const university = req.params.university;
+        if (major.length > 1) predicate = {...predicate, "appMajor":major.substring(1)};
+        if (university.length > 1) predicate = {...predicate, "appUniv":university.substring(1)};
+        let users = await userDao.findUsersByFilter(predicate);
+        res.json(users);
+    }
+
     app.post('/logout', logout);
     app.get('/pendingApplicants', pendingApplicants);
     app.get('/pendingRecruiters', pendingRecruiters);
@@ -93,6 +103,7 @@ const UsersController = (app) => {
     app.post('/profile', profile);
     app.put('/updateProfile/:uid', updateProfile);
     app.get('/getUser/:uid', getUser);
+    app.get('/getFilteredApplicants/:major/:university', getFilteredApplicants);
 }
 
 export default UsersController
