@@ -79,6 +79,7 @@ const UsersController = (app) => {
     const getUser = async (req, res) => {
         const uid = req.params.uid;
         const user = await userDao.findUserByUserId(uid)
+        console.log(user)
         res.json(user)
     }
 

@@ -4,9 +4,6 @@ import postsModel from "./posts-model.js";
 export const createPost = async (post) =>
     await postsModel.create(post)
 
-// export const findPostById = async (_id) =>
-//     await postsModel.findOne({_id})
-
 export const findPostsByFilter = async(filter) => {
     let predicate = {};
     if (filter["title"]) {
@@ -20,9 +17,6 @@ export const findPostsByFilter = async(filter) => {
     }
     return await postsModel.find(predicate);
 }
-
-// export const updatePostApplicants = async(_id, applicant_id) =>
-//     await postsModel.updateOne({_id}, {$push: {applicants:applicant_id}});
 
 export const findAllPosts = async () =>
     await postsModel.find()

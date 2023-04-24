@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import UsersController from "./users/users-controller.js";
 import PostsController from './posts/posts-controller.js';
+import BookmarksController from "./bookmarks/bookmarks-controller.js";
 import session from 'express-session'
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
@@ -33,4 +34,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 UsersController(app)
 PostsController(app)
+BookmarksController(app)
+
 app.listen(4100)
