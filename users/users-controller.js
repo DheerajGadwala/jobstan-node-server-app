@@ -1,4 +1,5 @@
 import * as userDao from './users-dao.js';
+import * as postDao from '../posts/posts-dao.js';
 
 const UsersController = (app) => {
 
@@ -29,7 +30,6 @@ const UsersController = (app) => {
             res.json(existingUser)
             return
         }
-        console.log(credentials)
         res.sendStatus(403)
     }
 
@@ -79,7 +79,6 @@ const UsersController = (app) => {
     const getUser = async (req, res) => {
         const uid = req.params.uid;
         const user = await userDao.findUserByUserId(uid)
-        console.log(user)
         res.json(user)
     }
 
@@ -94,6 +93,13 @@ const UsersController = (app) => {
         res.json(users);
     }
 
+    const getPostApplicants = async (req, res) => {
+        const pid = req.params.pid;
+        const post = await postDao.findPostById(pid);
+        const users = await userDao.findUsersByIds(post.applicants);
+        res.json(users);
+    }
+
     app.post('/logout', logout);
     app.get('/pendingApplicants', pendingApplicants);
     app.get('/pendingRecruiters', pendingRecruiters);
@@ -105,6 +111,7 @@ const UsersController = (app) => {
     app.put('/updateProfile/:uid', updateProfile);
     app.get('/getUser/:uid', getUser);
     app.get('/getFilteredApplicants/:major/:university', getFilteredApplicants);
+    app.get('/getPostApplicants/:pid', getPostApplicants);
 }
 
 export default UsersController
