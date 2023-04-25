@@ -15,6 +15,11 @@ const PostsController = (app) => {
         res.json(postId);
     }
 
+    const getAllPosts = async (req, res) => {
+        const posts = await postDao.findAllPosts();
+        res.json(posts);
+    }
+
     const getPostsByUserId = async (req, res) => {
         const userId = req.params.user_id;
         const user = await userDao.findUserByUserId(userId);
@@ -60,6 +65,7 @@ const PostsController = (app) => {
     app.post('/createPost', createPost);
     app.delete('/deletePost/:post_id', deletePost);
     app.get('/getPosts/:user_id', getPostsByUserId);
+    app.get('/getAllPosts', getAllPosts);
     app.put('/updatePost/:post_id', updatePost);
     app.get('/getFilteredPosts/:user_id/:title/:company/:applied', getFilteredPosts);
 }
