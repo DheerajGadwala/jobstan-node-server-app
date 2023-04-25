@@ -27,3 +27,6 @@ export const deletePost = async(post_id) =>
 export const updatePost = async (postIdToUpdate, updates) =>
     await postsModel.updateOne({_id: postIdToUpdate}, {$set: updates})
 
+export const findPostById = async (id) =>
+    await postsModel.findOne({_id: id})
+

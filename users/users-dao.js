@@ -36,7 +36,7 @@ export const findAllUsers = async () =>
 export const findUsersByFilter = async(filter) => {
     let predicate = {};
     if (filter["appMajor"]) {
-        predicate = {...predicate, "appMajor": filter["major"]};
+        predicate = {...predicate, "appMajor": filter["appMajor"]};
     }
     // if (filter["pay"]) {
     //     predicate = {...predicate, "pay": { $gt: Number(filter["pay"]) }};
@@ -44,7 +44,12 @@ export const findUsersByFilter = async(filter) => {
     if (filter["appUniv"]) {
         predicate = {...predicate, "appUniv": filter["appUniv"]};
     }
+    if (filter["role"]) {
+        predicate = {...predicate, "role": filter["role"]};
+    }
     return await usersModel.find(predicate);
 }
+
+export const findUsersByIds = async (ids) => await usersModel.find({ _id: { $in: ids } })
 
     
