@@ -48,17 +48,17 @@ const PostsController = (app) => {
         const title = req.params.title;
         const company = req.params.company;
         const userId = req.params.user_id;
-        const user = await userDao.findUserByUserId(userId);
-        const appFollowingArray = user.appFollowing;
+        // const user = await userDao.findUserByUserId(userId);
+        // const appFollowingArray = user.appFollowing;
         const applied = req.params.applied;
         if (title.length > 1) predicate = {...predicate, "title":title.substring(1)};
         if (company.length > 1) predicate = {...predicate, "company":company.substring(1)};
         let posts = await postDao.findPostsByFilter(predicate);
-        posts = posts.filter(post => appFollowingArray.includes(post.recruiter_id));
+        // posts = posts.filter(post => appFollowingArray.includes(post.recruiter_id));
         if (applied === 'true') 
             posts = posts.filter(post => post.applicants.includes(userId));
-        else 
-            posts = posts.filter(post => !post.applicants.includes(userId));
+        // else
+        //     posts = posts.filter(post => !post.applicants.includes(userId));
         res.json(posts);
     }
 
